@@ -16,8 +16,10 @@ RUN composer install --no-dev --no-interaction --no-scripts --prefer-dist --opti
 # --- Étape 3 : image finale ---
 FROM php:8.2-cli-alpine
 
-RUN apk add --no-cache sqlite-libs \
-    && docker-php-ext-install pdo pdo_sqlite
+RUN apk add --no-cache sqlite-dev \
+    && docker-php-ext-install pdo pdo_sqlite \
+    && apk del sqlite-dev \
+    && apk add --no-cache sqlite-libs
 
 WORKDIR /var/www/html
 
